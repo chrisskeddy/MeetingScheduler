@@ -33,3 +33,8 @@
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/MeetingScheduler.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/MeetingScheduler.pdb
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/MeetingScheduler.csproj.CopyComplete
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.dll
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Relational.dll
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Npgsql.dll
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Npgsql.EntityFrameworkCore.PostgreSQL.dll

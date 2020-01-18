@@ -2,7 +2,85 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+    <header class="masthead text-white text-center" style="background:url('assets/img/bg-masthead.jpg?h=3d56ee9570bd6ab1d22f0827b18a0a99')no-repeat center center;background-size:cover;">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h1 class="mb-5">Meeting Scheduler makes it easier to find a time for people to meet</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="features-icons bg-light text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
+                        <div class="d-flex features-icons-icon"><i class="icon-calendar m-auto text-primary" data-bs-hover-animate="pulse"></i></div>
+                        <h3>Calendar</h3>
+                        <p class="lead mb-0">Visual Calendar to look at possible meeting times</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
+                        <div class="d-flex features-icons-icon"><i class="material-icons m-auto text-primary" data-bs-hover-animate="pulse">mail_outline</i></div>
+                        <h3>Email</h3>
+                        <p class="lead mb-0">Send email links to people you want to meet with. Recieve an email once they have select a time.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
+                        <div class="d-flex features-icons-icon"><i class="icon-clock m-auto text-primary" data-bs-hover-animate="pulse"></i></div>
+                        <h3>Quick</h3>
+                        <p class="lead mb-0">Quickly find when people are available to for meetings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url(&quot;assets/img/calendar.png?h=9122914fdeaa10b7b61f29a651836827&quot;);max-width: 580px;"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Calendar</h2>
+                    <p class="lead mb-0">A visual calendar that is used to set and select times you are available to meet. You can select specific days and add times when you are available.</p>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-lg-6 text-white showcase-img" style="background-image: url(&quot;assets/img/select_time.png?h=0ff10d3a62c268a13ea32ea8f3f41460&quot;);"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Select Day</h2>
+                    <p class="lead mb-0">When you select a day a popup window will come up that shows the day you selected at the top. In the example to the left we have selected January 20, 2020. You can then set the start time and end time of when you are available to meet.
+                        To save the changes click the Add Available button.</p>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url(&quot;assets/img/saved.png?h=4efb3e0b8ba784f3a0a9b2ea96f92561&quot;);max-width: 580px;"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Submit</h2>
+                    <p class="lead mb-0">Afer you click the submit button all changes will be saved and the dates. Dates that are saved are indicated by the lighter blue color.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="call-to-action text-white text-center" style="background:url(&quot;assets/img/bg-masthead.jpg?h=3d56ee9570bd6ab1d22f0827b18a0a99&quot;) no-repeat center center;background-size:cover;">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h2 class="mb-4">Start Now</h2>
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 align-self-center mx-auto">
+                    <form>
+                        <div class="form-row justify-content-center">
+                            <div class="col-12 col-md-3"><a class="btn btn-primary btn-block btn-lg ml-auto" role="button" href="login.html">Sign Up/In</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
