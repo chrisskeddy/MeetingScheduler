@@ -28,6 +28,10 @@ namespace MeetingScheduler.Controllers
       return View();
     }
 
+    public IActionResult Session()
+    {
+      return View();
+    }
     public IActionResult Privacy()
     {
       return View();
