@@ -16,7 +16,7 @@
 <body>
     <header>
         <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
-            <div class="container"><a class="navbar-brand" href="#">Meeting Scheduler</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"></button>
+            <div class="container"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Meeting Scheduler</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"></button>
                 <div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="login.html">Sign Up/In</a></div>
             </div>
         </nav>
@@ -31,11 +31,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 my-auto h-100 text-center text-lg-left">
-                    <p class="text-muted small mb-4 mb-lg-0">© Christopher Keddy Meeting Scheduler 2020. All Rights Reserved.</p>
+                    <p class="text-muted small mb-4 mb-lg-0">© Christopher Keddy Meeting Scheduler 2020. All Rights Reserved.
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy"> Privacy Policy</a></p>
                 </div>
             </div>
         </div>
-    </footer>>
+    </footer>
     <script src="~/assets/js/jquery.min.js?h=83e266cb1712b47c265f77a8f9e18451"></script>
     <script src="~/assets/bootstrap/js/bootstrap.min.js?h=63715b63ee49d5fe4844c2ecae071373"></script>
     <script src="~/assets/js/script.min.js?h=82d712d5e0811380f26d2753ca68c860"></script>
