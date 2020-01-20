@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/keddyc/.dotnet/store/|arch|/|tfm|",
+      "/home/keddyc/.nuget/packages"
+    ]
+  }
+}

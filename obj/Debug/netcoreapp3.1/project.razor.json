@@ -20506,6 +20506,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/Views/Shared/_LayoutSignedIn.cshtml",
+      "TargetPath": "Views/Shared/_LayoutSignedIn.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/Views/_ViewImports.cshtml",
       "TargetPath": "Views/_ViewImports.cshtml",
       "FileKind": "mvc"
