@@ -6,6 +6,5 @@ namespace MeetingScheduler.Models
   {
     public string Id { get; set; }
     public string Fullname { get; set; }
-    public string SessionId { get; set; }
   }
 }
