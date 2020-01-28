@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 namespace MeetingScheduler.Models
 {
   // >dotnet ef migration add testMigration in AspNet5MultipleProject
-  public class DataBaseAccess : DbContext
+  public class MeetingPlannerContext : DbContext
   {
-    public DataBaseAccess(DbContextOptions<DataBaseAccess> options) : base(options)
+    public MeetingPlannerContext(DbContextOptions<MeetingPlannerContext> options) : base(options)
     {
     }
     public DbSet<Users> Users { get; set; }

@@ -11,6 +11,7 @@ namespace MeetingScheduler.Controllers
 {
   public class HomeController : Controller
   {
+    private MeetingPlannerContext _context;
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -23,8 +24,16 @@ namespace MeetingScheduler.Controllers
       return View();
     }
 
-    public IActionResult Login()
+    [HttpPost]
+    public IActionResult SignIn()
     {
+      ViewData["email"] = Request.Form["email"].ToString();
+      UserSigninKeys userSigninKeys = new UserSigninKeys
+      {
+        UserId = ViewData["email"].ToString(),
+        SigninKey = "BLARANDOMKEY12345"
+      };
+
       return View();
     }
 

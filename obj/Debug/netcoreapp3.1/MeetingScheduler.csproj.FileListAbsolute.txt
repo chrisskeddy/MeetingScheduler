@@ -39,7 +39,6 @@
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Npgsql.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/Razor/Views/Home/Session.cshtml.g.cs
-/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/Razor/Views/Home/Login.cshtml.g.cs
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.Bcl.AsyncInterfaces.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.Bcl.HashCode.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.dll
@@ -58,3 +57,4 @@
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/System.Diagnostics.DiagnosticSource.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Design.dll
 /home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_LayoutSignedIn.cshtml.g.cs
+/home/keddyc/Documents/Personal/Job_seeking/portfolio/MeetingScheduler/obj/Debug/netcoreapp3.1/Razor/Views/Home/SignIn.cshtml.g.cs

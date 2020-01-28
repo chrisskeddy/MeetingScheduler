@@ -38,7 +38,7 @@ namespace MeetingScheduler
           )
       );
       **/
-      services.AddEntityFrameworkNpgsql().AddDbContext<DataBaseAccess>(opt =>
+      services.AddEntityFrameworkNpgsql().AddDbContext<MeetingPlannerContext>(opt =>
         opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConection")));
       services.AddControllersWithViews();
     }
