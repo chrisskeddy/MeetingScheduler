@@ -29,18 +29,13 @@ namespace MeetingScheduler
     public void ConfigureServices(IServiceCollection services)
     {
       // Use a PostgreSQL database
-      /**
-      var sqlConnectionString = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
-      services.AddDbContext<DomainModelPostgreSqlContext>(options =>
-          options.UseNpgsql(
-              sqlConnectionString,
-              b => b.MigrationsAssembly("MeetingScheduler")
-          )
-      );
-      **/
-      services.AddEntityFrameworkNpgsql().AddDbContext<MeetingPlannerContext>(opt =>
-        opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConection")));
+      services.AddDbContext<MeetingSchedulerContext>(opt =>
+          opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConection")));
+
       services.AddControllersWithViews();
+      services.AddDistributedMemoryCache();
+      services.AddSession();
+      services.AddMvc();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +51,7 @@ namespace MeetingScheduler
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
+      app.UseSession();
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 

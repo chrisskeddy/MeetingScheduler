@@ -1,5 +1,6 @@
 @{
     var email = ViewData["email"];
+    var key = ViewData["key"];
 }
 
     <section class="features-icons bg-light text-center">
@@ -12,7 +13,7 @@
                         <h3>Email Sent</h3>
                         <p class="lead mb-0">An email has been sent to @email. Use the link to gain access.</p>
                         <!-- TEMP CODE -->
-                        <a asp-area="" asp-controller="Home" asp-action="Session">Link</a>
+                        @Html.ActionLink("Link", "SignInKey", "Home", new {email = @email, key= @key}, null)
                     </div>
                 </div>
                 <div class="col-lg-4"></div>
