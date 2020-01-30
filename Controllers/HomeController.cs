@@ -19,12 +19,6 @@ namespace MeetingScheduler.Controllers
     {
       _context = context;
     }
-    /*
-    public HomeController(ILogger<HomeController> logger)
-    {
-      _logger = logger;
-    }
-    */
 
     public IActionResult Index()
     {
@@ -32,9 +26,8 @@ namespace MeetingScheduler.Controllers
     }
 
     [HttpPost]
-    public IActionResult SignIn()
+    public IActionResult SignIn(string email)
     {
-      String email = Request.Form["email"].ToString();
       var exists = (from c in _context.Users where c.Id == email select c).FirstOrDefault();
       if (exists == null)
       {
@@ -45,13 +38,13 @@ namespace MeetingScheduler.Controllers
         _context.Users.Add(user);
       }
 
-      DateTime dateTime = DateTime.Now.Add(new TimeSpan(0, 1, 0, 0, 0));
+      DateTime expireTime = DateTime.Now.Add(new TimeSpan(0, 1, 0, 0, 0));
       String key = TokenGenerator.Generate(50);
       Usersigninkeys userSigninKey = new Usersigninkeys
       {
         Userid = email,
         Signinkey = key,
-        Expire = dateTime
+        Expire = expireTime
       };
       _context.Usersigninkeys.Add(userSigninKey);
       _context.SaveChanges();
@@ -63,17 +56,17 @@ namespace MeetingScheduler.Controllers
     [HttpGet]
     public IActionResult SignInKey(string email, string key)
     {
-      var validKey = (from c in _context.Usersigninkeys where c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
+      var ValidKey = (from c in _context.Usersigninkeys where c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
       ViewData["invalid"] = false;
       ViewData["hasName"] = false;
-      if (validKey == null)
+      if (ValidKey == null)
       {
         ViewData["invalid"] = true;
       }
       else
       {
         DateTime dateTime = DateTime.Now;
-        if (validKey.Expire < dateTime)
+        if (ValidKey.Expire < dateTime)
         {
           ViewData["invalid"] = true;
         }
@@ -83,32 +76,37 @@ namespace MeetingScheduler.Controllers
           String fullname = (from c in _context.Users where c.Id == email select c.Fullname).FirstOrDefault();
           if (fullname != null)
           {
-            ViewData["hasName"] = true;
+            HttpContext.Session.SetString("fullname", fullname);
+            return RedirectToAction("Index", "Calendar");
           }
         }
-        _context.Usersigninkeys.Remove(validKey);
+        _context.Usersigninkeys.Remove(ValidKey);
         _context.SaveChanges();
       }
       return View();
     }
 
 
-    public IActionResult SetFullname(string Fullname)
+    [HttpPost]
+    public IActionResult SetFullname(string fullname)
     {
       if (HttpContext.Session.GetString("email") != null)
       {
-        var email = HttpContext.Session.GetString("email");
-        if (Fullname != null && Fullname.Length > 2)
+        var Email = HttpContext.Session.GetString("email");
+        if (fullname != null && fullname.Length > 2)
         {
-          var user = (from c in _context.Users where c.Id == email select c).FirstOrDefault();
+          var user = (from c in _context.Users where c.Id == Email select c).FirstOrDefault();
           if (user != null)
           {
-            user.Fullname = Fullname;
+            user.Fullname = fullname;
+            HttpContext.Session.SetString("Fullname", fullname);
+
             _context.SaveChanges();
+            return RedirectToAction("Index", "Calendar");
           }
         }
       }
-      return View();
+      return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()
