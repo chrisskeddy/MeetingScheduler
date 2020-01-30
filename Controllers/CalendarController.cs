@@ -29,14 +29,14 @@ namespace MeetingScheduler.Controllers
 
     public IActionResult Index()
     {
-      var Email = HttpContext.Session.GetString("Email");
-      if (Email == null)
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
       {
         HttpContext.Session.Clear();
         return RedirectToAction("Index", "Home");
       }
-      ViewData["Email"] = Email;
-      ViewData["Fullname"] = HttpContext.Session.GetString("Fullname");
+      ViewData["email"] = email;
+      ViewData["fullname"] = HttpContext.Session.GetString("fullname");
       return View();
     }
   }
