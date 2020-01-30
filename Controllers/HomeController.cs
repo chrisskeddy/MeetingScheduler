@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MeetingScheduler.Models;
 
@@ -60,12 +61,11 @@ namespace MeetingScheduler.Controllers
     }
 
     [HttpGet]
-    public IActionResult SignInKey()
+    public IActionResult SignInKey(string email, string key)
     {
-      String email = Request.Form["email"];
-      String key = Request.Form["key"];
-      var validKey = (from c in _context.Usersigninkeys where c.Userid == email && c.Signinkey == key select c).First();
+      var validKey = (from c in _context.Usersigninkeys where c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
       ViewData["invalid"] = false;
+      ViewData["hasName"] = false;
       if (validKey == null)
       {
         ViewData["invalid"] = true;
@@ -79,16 +79,38 @@ namespace MeetingScheduler.Controllers
         }
         else
         {
-          //Session["email"] = email;
-          //HttpContext.Session.Set("email",);
-          //HttpContext.Session.SetString("email", email);
-
+          HttpContext.Session.SetString("email", email);
+          String fullname = (from c in _context.Users where c.Id == email select c.Fullname).FirstOrDefault();
+          if (fullname != null)
+          {
+            ViewData["hasName"] = true;
+          }
         }
         _context.Usersigninkeys.Remove(validKey);
         _context.SaveChanges();
       }
       return View();
     }
+
+
+    public IActionResult SetFullname(string Fullname)
+    {
+      if (HttpContext.Session.GetString("email") != null)
+      {
+        var email = HttpContext.Session.GetString("email");
+        if (Fullname != null && Fullname.Length > 2)
+        {
+          var user = (from c in _context.Users where c.Id == email select c).FirstOrDefault();
+          if (user != null)
+          {
+            user.Fullname = Fullname;
+            _context.SaveChanges();
+          }
+        }
+      }
+      return View();
+    }
+
     public IActionResult Privacy()
     {
       return View();

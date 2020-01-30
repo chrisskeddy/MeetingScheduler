@@ -1,0 +1,28 @@
+@{
+  bool invalid = (bool)ViewData["invalid"];
+  bool hasName = (bool)ViewData["hasName"];
+}
+  <section class="features-icons bg-light text-center">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-4"></div>
+              <div class="col-lg-4">
+                  <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
+                    @if(invalid){
+                      <h3>SignIn Failed</h3>
+                      <p class="lead mb-0">The signin has expired or does not exist.</p>
+                    } else if(!hasName) {
+                      <h3>SignIn Success</h3>
+                      <p class="lead mb-0">You have not set you name please set it now.</p>
+                      <form method="post" action="/Home/SetFullname">
+                        <h2 class="text-center">Set Name</h2>
+                        <div class="form-group"><input class="form-control" type="text" name="Fullname" placeholder="Fullname"></div>
+                        <div class="form-group"><button class="btn btn-primary" method="post">Submit</button></div>
+                      </form>
+                    }
+                  </div>
+              </div>
+              <div class="col-lg-4"></div>
+          </div>
+      </div>
+  </section>
