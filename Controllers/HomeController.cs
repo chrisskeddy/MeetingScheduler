@@ -20,14 +20,30 @@ namespace MeetingScheduler.Controllers
       _context = context;
     }
 
+    public IActionResult SignInEmail()
+    {
+      if (HttpContext.Session.GetString("email") != null)
+      {
+        return RedirectToAction("Index", "Calendar");
+      }
+      return View();
+    }
     public IActionResult Index()
     {
+      if (HttpContext.Session.GetString("email") != null)
+      {
+        return RedirectToAction("Index", "Calendar");
+      }
       return View();
     }
 
     [HttpPost]
     public IActionResult SignIn(string email)
     {
+      if (HttpContext.Session.GetString("email") != null)
+      {
+        return RedirectToAction("Index", "Calendar");
+      }
       var exists = (from c in _context.Users where c.Id == email select c).FirstOrDefault();
       if (exists == null)
       {

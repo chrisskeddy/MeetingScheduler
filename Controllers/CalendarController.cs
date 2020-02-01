@@ -39,5 +39,10 @@ namespace MeetingScheduler.Controllers
       ViewData["fullname"] = HttpContext.Session.GetString("fullname");
       return View();
     }
+
+    public IActionResult Calendars()
+    {
+      return View();
+    }
   }
 }
