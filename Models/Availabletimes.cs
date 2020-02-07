@@ -6,7 +6,7 @@ namespace MeetingScheduler.Models
     public partial class Availabletimes
     {
         public long Id { get; set; }
-        public string Calendarid { get; set; }
+        public long Calendarid { get; set; }
         public DateTime Editstamp { get; set; }
         public DateTime Starttime { get; set; }
         public DateTime Endtime { get; set; }

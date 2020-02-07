@@ -5,9 +5,13 @@ namespace MeetingScheduler.Models
 {
   public class TokenGenerator
   {
-    public static string Generate(int size)
+    public static string Generate(int size, bool easy)
     {
       var charSet = "abcdefghijklmnopqrstuvwxyz-_.ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      if (easy)
+      {
+        charSet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      }
       var chars = charSet.ToCharArray();
       var data = new byte[1];
       var crypto = new RNGCryptoServiceProvider();

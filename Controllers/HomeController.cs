@@ -55,24 +55,28 @@ namespace MeetingScheduler.Controllers
       }
 
       DateTime expireTime = DateTime.Now.Add(new TimeSpan(0, 1, 0, 0, 0));
-      String key = TokenGenerator.Generate(50);
+      String key = TokenGenerator.Generate(50, false);
+      String code = TokenGenerator.Generate(6, true);
       Usersigninkeys userSigninKey = new Usersigninkeys
       {
         Userid = email,
         Signinkey = key,
-        Expire = expireTime
+        Expire = expireTime,
+        Code = code
       };
       _context.Usersigninkeys.Add(userSigninKey);
       _context.SaveChanges();
       ViewData["email"] = email;
       ViewData["key"] = key;
+      ViewData["code"] = code;
       return View();
     }
 
-    [HttpGet]
-    public IActionResult SignInKey(string email, string key)
+    [HttpPost]
+    public IActionResult SignInKey(string email, string key, string code)
     {
-      var ValidKey = (from c in _context.Usersigninkeys where c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
+      var upperCode = code.ToUpper().Replace(" ", string.Empty);
+      var ValidKey = (from c in _context.Usersigninkeys where upperCode == c.Code && c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
       ViewData["invalid"] = false;
       ViewData["hasName"] = false;
       if (ValidKey == null)

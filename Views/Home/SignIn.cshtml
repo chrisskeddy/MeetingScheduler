@@ -2,6 +2,7 @@
     Layout = "_LayoutBlank";
     var email = ViewData["email"];
     var key = ViewData["key"];
+    var code = ViewData["code"];
 }
 
     <section class="features-icons bg-light text-center">
@@ -13,7 +14,14 @@
                         <div class="d-flex features-icons-icon"><i class="material-icons m-auto text-primary" data-bs-hover-animate="pulse">mail_outline</i></div>
                         <h3>Email Sent</h3>
                         <p class="lead mb-0">An email has been sent to @email. Use the link to gain access.</p>
+                        <h2>Code: @code </h2>
                         <!-- TEMP CODE -->
+                        <form method="post" action="/Home/SignInKey">
+                            <input type="hidden" name="key" value=@key>
+                            <input type="hidden" name="email" value=@email>
+                            <div class="form-group"><input class="form-control" type="text" name="code" placeholder="Code"></div>
+                            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Submit</button></div>
+                        </form>
                         @Html.ActionLink("Link", "SignInKey", "Home", new {email = @email, key= @key}, null)
                     </div>
                 </div>

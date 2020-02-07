@@ -11,7 +11,7 @@ namespace MeetingScheduler.Models
             Calendaraccess = new HashSet<Calendaraccess>();
         }
 
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Description { get; set; }
         public string Userid { get; set; }
 

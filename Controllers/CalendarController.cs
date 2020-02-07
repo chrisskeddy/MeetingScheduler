@@ -12,7 +12,6 @@ namespace MeetingScheduler.Controllers
 {
   public class CalendarController : Controller
   {
-
     private MeetingSchedulerContext _context;
 
     //private readonly ILogger<HomeController> _logger;
@@ -20,7 +19,6 @@ namespace MeetingScheduler.Controllers
     {
       _context = context;
     }
-
     public IActionResult Logout()
     {
       HttpContext.Session.Clear();

@@ -5,7 +5,7 @@ namespace MeetingScheduler.Models
 {
     public partial class Calendaraccess
     {
-        public string Calendarid { get; set; }
+        public long Calendarid { get; set; }
         public string Userid { get; set; }
         public DateTime? Expire { get; set; }
         public int Meetingcount { get; set; }
