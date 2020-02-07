@@ -26,6 +26,7 @@ namespace MeetingScheduler.Models
     {
 
     }
+<<<<<<< ced6c8f2e0595eb7605f91838bcab10a2c85bffb
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +68,44 @@ namespace MeetingScheduler.Models
                   .HasColumnName("description")
                   .HasColumnType("character varying");
 
+=======
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<Availabletimes>(entity =>
+      {
+        entity.ToTable("availabletimes");
+
+        entity.Property(e => e.Id).HasColumnName("id");
+
+        entity.Property(e => e.Calendarid).HasColumnName("calendarid");
+
+        entity.Property(e => e.Editstamp)
+                  .HasColumnName("editstamp")
+                  .HasColumnType("date")
+                  .HasDefaultValueSql("now()");
+
+        entity.Property(e => e.Endtime).HasColumnName("endtime");
+
+        entity.Property(e => e.Starttime).HasColumnName("starttime");
+
+        entity.HasOne(d => d.Calendar)
+                  .WithMany(p => p.Availabletimes)
+                  .HasForeignKey(d => d.Calendarid)
+                  .HasConstraintName("availabletimes_calendarid_fkey");
+      });
+
+      modelBuilder.Entity<Calendar>(entity =>
+      {
+        entity.ToTable("calendar");
+
+        entity.Property(e => e.Id).HasColumnName("id");
+
+        entity.Property(e => e.Description)
+                  .HasColumnName("description")
+                  .HasColumnType("character varying");
+
+>>>>>>> clean code.
         entity.Property(e => e.Userid)
                   .IsRequired()
                   .HasColumnName("userid")
@@ -86,9 +125,13 @@ namespace MeetingScheduler.Models
 
         entity.ToTable("calendaraccess");
 
+<<<<<<< ced6c8f2e0595eb7605f91838bcab10a2c85bffb
         entity.Property(e => e.Calendarid)
                   .HasColumnName("calendarid")
                   .HasColumnType("character varying");
+=======
+        entity.Property(e => e.Calendarid).HasColumnName("calendarid");
+>>>>>>> clean code.
 
         entity.Property(e => e.Userid)
                   .HasColumnName("userid")
@@ -182,6 +225,14 @@ namespace MeetingScheduler.Models
                   .HasColumnName("signinkey")
                   .HasColumnType("character varying");
 
+<<<<<<< ced6c8f2e0595eb7605f91838bcab10a2c85bffb
+=======
+        entity.Property(e => e.Code)
+                  .IsRequired()
+                  .HasColumnName("code")
+                  .HasColumnType("character varying");
+
+>>>>>>> clean code.
         entity.Property(e => e.Expire)
                   .HasColumnName("expire")
                   .HasDefaultValueSql("(now() + '01:00:00'::interval)");
