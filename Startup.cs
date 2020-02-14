@@ -28,10 +28,18 @@ namespace MeetingScheduler
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      //services.AddControllers().AddNewtonsoftJson();
       // Use a PostgreSQL database
       services.AddDbContext<MeetingSchedulerContext>(opt =>
           opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConection")));
-
+      //services.AddControllers().AddNewtonsoftJson();
+      /*
+      services.AddMvc().AddJsonOptions(o =>
+               {
+                 o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                 o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+               });
+               */
       services.AddControllersWithViews();
       services.AddDistributedMemoryCache();
       services.AddSession();
