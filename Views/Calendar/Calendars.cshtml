@@ -1,6 +1,26 @@
+@model IEnumerable<MeetingScheduler.Models.Calendar>
 @{
   ViewData["Title"] = "Calendars";
   Layout = "_LayoutSignedIn";
 }
-
-<h1>Calendars</h1>
+<div class="jumbotron">
+  <h1 class="text-center">Calendars</h1>
+  <div class="table-responsive">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th class="text-center">Description</th>
+              </tr>
+          </thead>
+          <tbody>
+            @{
+              foreach (var calendar in Model) {
+                <tr>
+                    <td class="text-center">@calendar.Description</td>
+                </tr>
+              }
+            }
+          </tbody>
+      </table>
+  </div>
+</div>

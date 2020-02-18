@@ -44,6 +44,10 @@ namespace MeetingScheduler.Controllers
       {
         return RedirectToAction("Index", "Calendar");
       }
+      if (email == null || email == "")
+      {
+        return RedirectToAction("SignInEmail", "Home");
+      }
       var exists = (from c in _context.Users where c.Id == email select c).FirstOrDefault();
       if (exists == null)
       {
@@ -75,6 +79,10 @@ namespace MeetingScheduler.Controllers
     [HttpPost]
     public IActionResult SignInKey(string email, string key, string code)
     {
+      if (code == null || code == "")
+      {
+        return RedirectToAction("SignInEmail", "Home");
+      }
       var upperCode = code.ToUpper().Replace(" ", string.Empty);
       var ValidKey = (from c in _context.Usersigninkeys where upperCode == c.Code && c.Userid == email && c.Signinkey == key select c).FirstOrDefault();
       ViewData["invalid"] = false;
@@ -92,6 +100,7 @@ namespace MeetingScheduler.Controllers
         }
         else
         {
+          //HttpResponse.Cookies(".AspNetCore.Session").Expires = DateTime.Now.AddMinutes(20);
           HttpContext.Session.SetString("email", email);
           String fullname = (from c in _context.Users where c.Id == email select c.Fullname).FirstOrDefault();
           if (fullname != null)
@@ -119,7 +128,7 @@ namespace MeetingScheduler.Controllers
           if (user != null)
           {
             user.Fullname = fullname;
-            HttpContext.Session.SetString("Fullname", fullname);
+            HttpContext.Session.SetString("fullname", fullname);
 
             _context.SaveChanges();
             return RedirectToAction("Index", "Calendar");

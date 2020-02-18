@@ -1,4 +1,32 @@
+@model IEnumerable<MeetingScheduler.Models.Calendaraccess>
 @{
   ViewData["Title"] = "Calendar Accesses";
   Layout = "_LayoutSignedIn";
 }
+<div class="jumbotron">
+  <h1 class="text-center">Calendars</h1>
+  <div class="table-responsive">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Who</th>
+                  <th class="text-center">Length</th>
+              </tr>
+          </thead>
+          <tbody>
+            @{
+              foreach (var calendarAccess in Model) {
+                <tr>
+                    <td class="text-center">@calendarAccess.Calendar.Description</td>
+                    <td class="text-center">@calendarAccess.Calendar.User.Fullname</td>
+                    <td class="text-center">
+                      @(calendarAccess.Meetingminutelength/60):@(calendarAccess.Meetingminutelength%60)
+                    </td>
+                </tr>
+              }
+            }
+          </tbody>
+      </table>
+  </div>
+</div>

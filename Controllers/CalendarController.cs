@@ -151,9 +151,62 @@ namespace MeetingScheduler.Controllers
       return View();
     }
 
+    public IActionResult Meetings()
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      var now = DateTime.Now;
+      var oldMeetings = (from c in _context.Meetings where c.Starttime < now && c.Userid == email select c).ToArray();
+      if (oldMeetings != null)
+      {
+        for (int i = 0; i < oldMeetings.Length; ++i)
+        {
+          _context.Meetings.Remove(oldMeetings[i]);
+        }
+        _context.SaveChanges();
+      }
+      var meetings = (from c in _context.Meetings where c.Starttime >= now && c.Userid == email || c.Requestuserid == email orderby c.Starttime select c).Take(15).ToArray();
+      foreach (var meeting in meetings)
+      {
+        meeting.Requestuser = (from c in _context.Users where c.Id == meeting.Requestuserid select c).FirstOrDefault();
+        meeting.User = (from c in _context.Users where c.Id == meeting.Userid select c).FirstOrDefault();
+      }
+      return View(meetings.ToList());
+    }
+
     public IActionResult Calendars()
     {
-      return View();
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      var calendars = (from c in _context.Calendar where c.Userid == email select c).ToArray();
+      return View(calendars.ToList());
     }
+    public IActionResult CalendarAccesses()
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      var now = DateTime.Now;
+      var calendarAccesses = (from c in _context.Calendaraccess where c.Userid == email &&
+        c.Expire == null || c.Expire >= now select c).ToArray();
+      foreach (var calendarAccess in calendarAccesses)
+      {
+        calendarAccess.Calendar = (from c in _context.Calendar where c.Id == calendarAccess.Calendarid select c).FirstOrDefault();
+        calendarAccess.Calendar.User = (from c in _context.Users where c.Id == calendarAccess.Calendar.Userid select c).FirstOrDefault();
+      }
+      return View(calendarAccesses.ToList());
+    }
+
   }
 }

@@ -42,8 +42,25 @@ namespace MeetingScheduler
                */
       services.AddControllersWithViews();
       services.AddDistributedMemoryCache();
-      services.AddSession();
+
+
       services.AddMvc();
+
+      services.ConfigureApplicationCookie(options =>
+      {
+        // Cookie settings
+        options.Cookie.HttpOnly = true;
+        options.Cookie.Name = ".AspNetCore.Session";
+        options.Cookie.Expiration = TimeSpan.FromMinutes(30);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+      });
+      services.AddSession(options =>
+      {
+        options.IdleTimeout = TimeSpan.FromMinutes(30);
+        options.Cookie.IsEssential = true;
+        options.IOTimeout = TimeSpan.FromMinutes(30);
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,11 +79,9 @@ namespace MeetingScheduler
       app.UseSession();
       app.UseHttpsRedirection();
       app.UseStaticFiles();
-
       app.UseRouting();
 
       app.UseAuthorization();
-
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllerRoute(

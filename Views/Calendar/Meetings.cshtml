@@ -1,4 +1,42 @@
+@model IEnumerable<MeetingScheduler.Models.Meetings>
 @{
   ViewData["Title"] = "Meetings";
   Layout = "_LayoutSignedIn";
 }
+<div class="jumbotron">
+  <h1 class="text-center">Meetings</h1>
+  <div class="table-responsive">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th class="text-center">Description</th>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Time</th>
+                  <th class="text-center">With</th>
+              </tr>
+          </thead>
+          <tbody>
+            @{
+              foreach (var meeting in Model) {
+                var date=meeting.Starttime.ToString("yyyy-MM-dd");
+                var start=meeting.Starttime.ToString("HH:mm");
+                var end=meeting.Endtime.ToString("HH:mm");
+                <tr>
+                    <td class="text-center">@meeting.Description</td>
+                    <td class="text-center">@date</td>
+                    <td class="text-center">@start -- @end</td>
+                    <td class="text-center">
+                      @if((string)ViewData["email"]==meeting.Userid) {
+                        @meeting.Requestuser.Fullname
+                      } else {
+                        @meeting.User.Fullname
+                      }
+                    </td>
+                </tr>
+              }
+
+            }
+          </tbody>
+      </table>
+  </div>
+</div>
