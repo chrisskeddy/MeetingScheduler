@@ -160,7 +160,7 @@ namespace MeetingScheduler.Controllers
         return RedirectToAction("Index", "Home");
       }
       var now = DateTime.Now;
-      var oldMeetings = (from c in _context.Meetings where c.Starttime < now && c.Userid == email select c).ToArray();
+      var oldMeetings = (from c in _context.Meetings where c.Starttime < now && (c.Userid == email || c.Requestuserid == email) select c).ToArray();
       if (oldMeetings != null)
       {
         for (int i = 0; i < oldMeetings.Length; ++i)
@@ -169,7 +169,7 @@ namespace MeetingScheduler.Controllers
         }
         _context.SaveChanges();
       }
-      var meetings = (from c in _context.Meetings where c.Starttime >= now && c.Userid == email || c.Requestuserid == email orderby c.Starttime select c).Take(15).ToArray();
+      var meetings = (from c in _context.Meetings where c.Starttime >= now && (c.Userid == email || c.Requestuserid == email) orderby c.Starttime select c).Take(15).ToArray();
       foreach (var meeting in meetings)
       {
         meeting.Requestuser = (from c in _context.Users where c.Id == meeting.Requestuserid select c).FirstOrDefault();
@@ -198,8 +198,10 @@ namespace MeetingScheduler.Controllers
         return RedirectToAction("Index", "Home");
       }
       var now = DateTime.Now;
-      var calendarAccesses = (from c in _context.Calendaraccess where c.Userid == email &&
-        c.Expire == null || c.Expire >= now select c).ToArray();
+      var calendarAccesses = (from c in _context.Calendaraccess
+                              where c.Userid == email &&
+c.Expire == null || c.Expire >= now
+                              select c).ToArray();
       foreach (var calendarAccess in calendarAccesses)
       {
         calendarAccess.Calendar = (from c in _context.Calendar where c.Id == calendarAccess.Calendarid select c).FirstOrDefault();

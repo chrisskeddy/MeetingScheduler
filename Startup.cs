@@ -51,15 +51,15 @@ namespace MeetingScheduler
         // Cookie settings
         options.Cookie.HttpOnly = true;
         options.Cookie.Name = ".AspNetCore.Session";
-        options.Cookie.Expiration = TimeSpan.FromMinutes(30);
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.Cookie.Expiration = TimeSpan.FromHours(60);
+        options.ExpireTimeSpan = TimeSpan.FromHours(60);
         options.SlidingExpiration = true;
       });
       services.AddSession(options =>
       {
-        options.IdleTimeout = TimeSpan.FromMinutes(30);
+        options.IdleTimeout = TimeSpan.FromHours(60);
         options.Cookie.IsEssential = true;
-        options.IOTimeout = TimeSpan.FromMinutes(30);
+        options.IOTimeout = TimeSpan.FromHours(60);
       });
     }
 
