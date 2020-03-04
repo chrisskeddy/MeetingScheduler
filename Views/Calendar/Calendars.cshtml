@@ -15,8 +15,9 @@
           <tbody>
             @{
               foreach (var calendar in Model) {
+                var link = "/Calendar/Calendar?calendarId="+@calendar.Id;
                 <tr>
-                    <td class="text-center">@calendar.Description</td>
+                    <td class="text-center"><a href="@link">@calendar.Description</a></td>
                 </tr>
               }
             }

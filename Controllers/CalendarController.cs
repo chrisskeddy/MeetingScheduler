@@ -115,8 +115,23 @@ namespace MeetingScheduler.Controllers
       {
         return Json(new { status = "invalid" });
       }
+      //Delete availableTimes that are in the past
+      var now = DateTime.Now;
+      var oldAvailableTimes = (from c in _context.Availabletimes where c.Calendarid == calendar.Id && c.Endtime < now select c).ToArray();
+      var delete = false;
+      if (oldAvailableTimes.Length > 0)
+      {
+        delete = true;
+      }
+      for (int i = 0; i < oldAvailableTimes.Length; ++i)
+      {
+        _context.Availabletimes.Remove(oldAvailableTimes[i]);
+      }
+      if (delete)
+      {
+        _context.SaveChanges();
+      }
       var availiableTimes = (from c in _context.Availabletimes where c.Calendarid == calendar.Id select c).ToArray();
-
       return Json(new
       {
         status = "success",
@@ -188,6 +203,23 @@ namespace MeetingScheduler.Controllers
       }
       var calendars = (from c in _context.Calendar where c.Userid == email select c).ToArray();
       return View(calendars.ToList());
+    }
+
+
+    public IActionResult Calendar(long calendarId)
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Calendars");
+      }
+      var calendar = (from c in _context.Calendar where c.Userid == email && c.Id == calendarId select c).FirstOrDefault();
+      if (calendar == null)
+      {
+        return RedirectToAction("Calendars");
+      }
+      return View(calendarId);
     }
     public IActionResult CalendarAccesses()
     {
