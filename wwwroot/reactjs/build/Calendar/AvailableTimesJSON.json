@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "description": "First Calendar",
+  "data": [
+    {
+      "id": 2,
+      "calendarid": 2,
+      "starttime": "2020-03-31 10:00:00",
+      "endtime": "2020-03-31 14:00:00"
+    },
+    {
+      "id": 3,
+      "calendarid": 2,
+      "starttime": "2020-03-28 10:00:00",
+      "endtime": "2020-03-28 14:00:00"
+    }
+  ]
+}

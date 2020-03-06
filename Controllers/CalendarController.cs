@@ -111,6 +111,7 @@ namespace MeetingScheduler.Controllers
         return Json(new { status = "invalid" });
       }
       var calendar = (from c in _context.Calendar where c.Userid == email && c.Id == calendarId select c).FirstOrDefault();
+      //var calendar = (from c in _context.Calendar where c.Id == calendarId select c).FirstOrDefault();
       if (calendar == null)
       {
         return Json(new { status = "invalid" });
@@ -132,9 +133,10 @@ namespace MeetingScheduler.Controllers
         _context.SaveChanges();
       }
       var availiableTimes = (from c in _context.Availabletimes where c.Calendarid == calendar.Id select c).ToArray();
-      return Json(new
+      return Ok(new
       {
         status = "success",
+        description = calendar.Description,
         data = availiableTimes.Select(
         item => new
         {
@@ -147,6 +149,10 @@ namespace MeetingScheduler.Controllers
       });
     }
 
+    public IActionResult UpdateAvailableTime(Availabletimes availabletime)
+    {
+      return View();
+    }
     public IActionResult Logout()
     {
       HttpContext.Session.Clear();
