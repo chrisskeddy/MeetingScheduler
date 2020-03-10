@@ -149,9 +149,58 @@ namespace MeetingScheduler.Controllers
       });
     }
 
-    public IActionResult UpdateAvailableTime(Availabletimes availabletime)
+    public IActionResult UpdateAvailableTimeJSON(Availabletimes availabletime)
     {
-      return View();
+      /*
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        return Json(new { status = "invalid" });
+      }
+      var calendar = (from c in _context.Calendar where c.Userid == email && c.Id == availabletime.Calendarid select c).FirstOrDefault();
+      */
+      var calendar = (from c in _context.Calendar where c.Id == availabletime.Calendarid select c).FirstOrDefault();
+      if (calendar == null)
+      {
+        return Json(new { status = "invalid" });
+      }
+      var editAvailableTime = availabletime;
+      if (availabletime.Id > 0)
+      {
+        editAvailableTime = (from c in _context.Availabletimes where c.Id == availabletime.Id && availabletime.Calendarid == c.Calendarid select c).FirstOrDefault();
+        if (editAvailableTime == null)
+        {
+          return Json(new { status = "invalid" });
+        }
+        editAvailableTime.Editstamp = DateTime.Now;
+        editAvailableTime.Starttime = availabletime.Starttime;
+        editAvailableTime.Endtime = availabletime.Endtime;
+        _context.Update(editAvailableTime);
+        _context.SaveChanges();
+      }
+      else
+      {
+        editAvailableTime = new Availabletimes
+        {
+          Editstamp = DateTime.Now,
+          Starttime = availabletime.Starttime,
+          Endtime = availabletime.Endtime,
+          Calendarid = availabletime.Calendarid
+        };
+        _context.Availabletimes.Add(editAvailableTime);
+        _context.SaveChanges();
+      }
+      return Json(new
+      {
+        status = "success",
+        data = new
+        {
+          id = editAvailableTime.Id,
+          calendarid = editAvailableTime.Calendarid,
+          starttime = editAvailableTime.Starttime.ToString("yyyy-MM-dd HH:mm:ss"),
+          endtime = editAvailableTime.Endtime.ToString("yyyy-MM-dd HH:mm:ss")
+        }
+      });
     }
     public IActionResult Logout()
     {
@@ -172,6 +221,29 @@ namespace MeetingScheduler.Controllers
       return View();
     }
 
+    public IActionResult AddCalendar(String description)
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      ViewData["email"] = email;
+      ViewData["fullname"] = HttpContext.Session.GetString("fullname");
+      var findCalendar = (from c in _context.Calendar where c.Description == description && c.Userid == email select c).FirstOrDefault();
+      if (findCalendar == null)
+      {
+        Calendar newCalendar = new Calendar
+        {
+          Userid = email,
+          Description = description
+        };
+        _context.Calendar.Add(newCalendar);
+        _context.SaveChanges();
+      }
+      return RedirectToAction("Calendars");
+    }
     public IActionResult Meetings()
     {
       var email = HttpContext.Session.GetString("email");
@@ -225,8 +297,52 @@ namespace MeetingScheduler.Controllers
       {
         return RedirectToAction("Calendars");
       }
-      return View(calendarId);
+      var now = DateTime.Now;
+      var oldCalendarAccesses = (from c in _context.Calendaraccess where (c.Expire != null && c.Expire < now) && c.Calendarid == calendar.Id select c).ToArray();
+      bool remove = (oldCalendarAccesses != null);
+      foreach (var calendarAccess in oldCalendarAccesses)
+      {
+        _context.Calendaraccess.Remove(calendarAccess);
+      }
+      if (remove)
+      {
+        _context.SaveChanges();
+      }
+      var calendarAccesses = (from c in _context.Calendaraccess where c.Calendarid == calendar.Id select c).ToArray();
+      foreach (var calendarAccess in calendarAccesses)
+      {
+        calendarAccess.User = (from c in _context.Users where c.Id == calendarAccess.Userid select c).FirstOrDefault();
+      }
+      return View(calendarAccesses.ToList());
     }
+
+    public IActionResult UpdateAccess(Calendaraccess calendarAccess)
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      var getCalendar = (from c in _context.Calendar where c.Userid == email && c.Id == calendarAccess.Calendarid select c).FirstOrDefault();
+      if (getCalendar == null)
+      {
+        return RedirectToAction("Index", "Calendar");
+      }
+      var getCalendarAccess = (from c in _context.Calendaraccess where calendarAccess.Calendarid == c.Calendarid && calendarAccess.Userid == c.Userid select c).FirstOrDefault();
+      getCalendarAccess.Meetingcount = calendarAccess.Meetingcount;
+      getCalendarAccess.Meetingminutelength = calendarAccess.Meetingminutelength;
+      if (calendarAccess.Expire != null)
+      {
+        getCalendarAccess.Expire = calendarAccess.Expire;
+      }
+      _context.Update(getCalendarAccess);
+      _context.SaveChanges();
+      //return RedirectToAction("Calendar?calendarId=" + getCalendarAccess.Calendarid, "Calendar");
+      return RedirectToAction("Calendar", "Calendar", new { @calendarId = getCalendarAccess.Calendarid }
+      );
+    }
+
     public IActionResult CalendarAccesses()
     {
       var email = HttpContext.Session.GetString("email");
