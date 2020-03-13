@@ -292,6 +292,7 @@ namespace MeetingScheduler.Controllers
         HttpContext.Session.Clear();
         return RedirectToAction("Calendars");
       }
+      ViewData["calendarId"] = calendarId;
       var calendar = (from c in _context.Calendar where c.Userid == email && c.Id == calendarId select c).FirstOrDefault();
       if (calendar == null)
       {
@@ -330,6 +331,24 @@ namespace MeetingScheduler.Controllers
         return RedirectToAction("Index", "Calendar");
       }
       var getCalendarAccess = (from c in _context.Calendaraccess where calendarAccess.Calendarid == c.Calendarid && calendarAccess.Userid == c.Userid select c).FirstOrDefault();
+
+      if (getCalendarAccess == null)
+      {
+        var user = (from c in _context.Users where c.Id == calendarAccess.Userid select c).FirstOrDefault();
+        if (user == null)
+        {
+          user = new Users
+          {
+            Id = calendarAccess.Userid
+          };
+          _context.Users.Add(user);
+        }
+        _context.Calendaraccess.Add(calendarAccess);
+        _context.SaveChanges();
+        //TODO send user email
+        getCalendarAccess = (from c in _context.Calendaraccess where calendarAccess.Calendarid == c.Calendarid && calendarAccess.Userid == c.Userid select c).FirstOrDefault();
+        return RedirectToAction("Calendar", "Calendar", new { @calendarId = getCalendarAccess.Calendarid });
+      }
       getCalendarAccess.Meetingcount = calendarAccess.Meetingcount;
       getCalendarAccess.Meetingminutelength = calendarAccess.Meetingminutelength;
       if (calendarAccess.Expire != null)

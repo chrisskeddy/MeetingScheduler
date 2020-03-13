@@ -2,6 +2,7 @@
 @{
   ViewData["Title"] = "Calendar";
   Layout = "_LayoutSignedIn";
+  long calendarId = (long)ViewData["calendarId"];
 }
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
@@ -34,12 +35,25 @@
                       <td class="text-center"><input type="number" value=@access.Meetingminutelength name="Meetingminutelength"></td>
                       <td class="text-center">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <button class="btn btn-danger" type="button">Delete</button>
+                        <button style="margin-top: 10px" class="btn btn-danger" type="button">Delete</button>
                       </td>
                     </form>
                 </tr>
               }
             }
+            <tr>
+                <td class="text-center"></td>
+                <form method="post" action="/Calendar/UpdateAccess">
+                <td class="text-center"><input type="text" name="Userid" placeholder="ex@example.com"></td>
+                  <input type="hidden" name="Calendarid" value=@calendarId>
+                  <td class="text-center"><input type="text" name="Expire" placeholder="YYYY-MM-DD"></td>
+                  <td class="text-center"><input type="number" placeholder="Allowd Meetings" name="Meetingcount"></td>
+                  <td class="text-center"><input type="number" placeholder="Minutes" name="Meetingminutelength"></td>
+                  <td class="text-center">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                  </td>
+                </form>
+            </tr>
           </tbody>
       </table>
   </div>
