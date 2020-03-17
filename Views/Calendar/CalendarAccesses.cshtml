@@ -11,7 +11,8 @@
               <tr>
                   <th class="text-center">Description</th>
                   <th class="text-center">Who</th>
-                  <th class="text-center">Length</th>
+                  <th class="text-center">Length Minutes</th>
+                  <th class="text-center"></th>
               </tr>
           </thead>
           <tbody>
@@ -21,7 +22,10 @@
                     <td class="text-center">@calendarAccess.Calendar.Description</td>
                     <td class="text-center">@calendarAccess.Calendar.User.Fullname</td>
                     <td class="text-center">
-                      @(calendarAccess.Meetingminutelength/60):@(calendarAccess.Meetingminutelength%60)
+                      @calendarAccess.Meetingminutelength
+                    </td>
+                    <td class="text-center">
+                      <a class="btn btn-primary" type="button" href="/Calendar/SetMeeting?calendarId=@calendarAccess.Calendar.Id">Select</a>
                     </td>
                 </tr>
               }

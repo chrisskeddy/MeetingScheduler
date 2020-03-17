@@ -21,6 +21,7 @@ namespace MeetingScheduler.Controllers
       _context = context;
     }
 
+
     public IActionResult CalendarAccessJSON()
     {
       var email = HttpContext.Session.GetString("email");
@@ -103,6 +104,32 @@ namespace MeetingScheduler.Controllers
       });
     }
 
+    public IActionResult AvailableTimesMeetingsJSON(long calendarId, string userId)
+    {
+      var calendar = (from c in _context.Calendar where c.Id == calendarId select c).FirstOrDefault();
+      var calendarAccess = (from c in _context.Calendaraccess where c.Userid == userId && c.Calendarid == calendarId select c).FirstOrDefault();
+      var availiableTimes = (from c in _context.Availabletimes
+                             where c.Calendarid == calendarId
+                             select c).ToArray();
+      var data = availiableTimes.Select(
+        item => new
+        {
+          id = item.Id,
+          calendarid = item.Calendarid,
+          starttime = item.Starttime.ToString("yyyy-MM-dd HH:mm:ss"),
+          endtime = item.Endtime.ToString("yyyy-MM-dd HH:mm:ss"),
+          meetingminutelength = ((item.Endtime - item.Starttime).Hours) * 60 + (item.Endtime - item.Starttime).Minutes
+        }
+      ).Where(item => item.meetingminutelength >= calendarAccess.Meetingminutelength);
+      return Ok(new
+      {
+        status = "success",
+        description = calendar.Description,
+        data = data,
+        meetingminutelength = calendarAccess.Meetingminutelength
+      }
+      );
+    }
     public IActionResult AvailableTimesJSON(long calendarId)
     {
       var email = HttpContext.Session.GetString("email");
@@ -151,15 +178,12 @@ namespace MeetingScheduler.Controllers
 
     public IActionResult UpdateAvailableTimeJSON(Availabletimes availabletime)
     {
-      /*
       var email = HttpContext.Session.GetString("email");
       if (email == null)
       {
         return Json(new { status = "invalid" });
       }
       var calendar = (from c in _context.Calendar where c.Userid == email && c.Id == availabletime.Calendarid select c).FirstOrDefault();
-      */
-      var calendar = (from c in _context.Calendar where c.Id == availabletime.Calendarid select c).FirstOrDefault();
       if (calendar == null)
       {
         return Json(new { status = "invalid" });
@@ -316,7 +340,36 @@ namespace MeetingScheduler.Controllers
       }
       return View(calendarAccesses.ToList());
     }
+    public IActionResult DeleteAccess(string userId, long calendarId)
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      var getCalendar = (from c in _context.Calendar where c.Userid == email && c.Id == calendarId select c).FirstOrDefault();
+      if (getCalendar == null)
+      {
+        return RedirectToAction("Index", "Calendar");
+      }
+      var getCalendarAccess = (from c in _context.Calendaraccess where calendarId == c.Calendarid && userId == c.Userid select c).FirstOrDefault();
+      _context.Calendaraccess.Remove(getCalendarAccess);
+      _context.SaveChanges();
+      return RedirectToAction("Calendar", "Calendar", new { @calendarId = calendarId }
+      );
+    }
 
+    public IActionResult SetMeeting(long calendarId)
+    {
+      var email = HttpContext.Session.GetString("email");
+      if (email == null)
+      {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+      }
+      return View();
+    }
     public IActionResult UpdateAccess(Calendaraccess calendarAccess)
     {
       var email = HttpContext.Session.GetString("email");
@@ -357,7 +410,6 @@ namespace MeetingScheduler.Controllers
       }
       _context.Update(getCalendarAccess);
       _context.SaveChanges();
-      //return RedirectToAction("Calendar?calendarId=" + getCalendarAccess.Calendarid, "Calendar");
       return RedirectToAction("Calendar", "Calendar", new { @calendarId = getCalendarAccess.Calendarid }
       );
     }

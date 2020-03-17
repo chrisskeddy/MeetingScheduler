@@ -17,8 +17,9 @@
                   <th class="text-center">Email</th>
                   <th class="text-center">Expire</th>
                   <th class="text-center">Allowed Meetings</th>
-                  <th class="text-center">Meeting Length Minutes</th>
-                  <th class="text-center">Options</th>
+                  <th class="text-center">Length Minutes</th>
+                  <th class="text-center">Update</th>
+                  <th class="text-center">Remove</th>
               </tr>
           </thead>
           <tbody>
@@ -30,14 +31,20 @@
                     <form method="post" action="/Calendar/UpdateAccess">
                       <input type="hidden" name="Calendarid" value=@access.Calendarid>
                       <input type="hidden" name="Userid" value=@access.Userid>
-                      <td class="text-center"><input type="text" value=@access.Expire name="Expire" placeholder="YYYY-MM-DD"></td>
-                      <td class="text-center"><input type="number" value=@access.Meetingcount name="Meetingcount"></td>
-                      <td class="text-center"><input type="number" value=@access.Meetingminutelength name="Meetingminutelength"></td>
+                      <td class="text-center"><input style="width:120px;" type="text" value=@access.Expire name="Expire" placeholder="YYYY-MM-DD"></td>
+                      <td class="text-center"><input type="number" style="width:150px;" value=@access.Meetingcount name="Meetingcount"></td>
+                      <td class="text-center"><input type="number" style="width:150px;" value=@access.Meetingminutelength name="Meetingminutelength"></td>
                       <td class="text-center">
                         <button class="btn btn-primary" type="submit">Save</button>
-                        <button style="margin-top: 10px" class="btn btn-danger" type="button">Delete</button>
                       </td>
                     </form>
+                      <td>
+                        <form method="post" action="/Calendar/DeleteAccess">
+                          <input type="hidden" name="calendarId" value=@access.Calendarid>
+                          <input type="hidden" name="userId" value=@access.Userid>
+                          <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                      </td>
                 </tr>
               }
             }
@@ -46,9 +53,9 @@
                 <form method="post" action="/Calendar/UpdateAccess">
                 <td class="text-center"><input type="text" name="Userid" placeholder="ex@example.com"></td>
                   <input type="hidden" name="Calendarid" value=@calendarId>
-                  <td class="text-center"><input type="text" name="Expire" placeholder="YYYY-MM-DD"></td>
-                  <td class="text-center"><input type="number" placeholder="Allowd Meetings" name="Meetingcount"></td>
-                  <td class="text-center"><input type="number" placeholder="Minutes" name="Meetingminutelength"></td>
+                  <td class="text-center"><input type="text" style="width:120px" name="Expire" placeholder="YYYY-MM-DD"></td>
+                  <td class="text-center"><input type="number" style="width:150px" placeholder="Allowd Meetings" name="Meetingcount"></td>
+                  <td class="text-center"><input type="number" style="width:150px" placeholder="Minutes" name="Meetingminutelength"></td>
                   <td class="text-center">
                     <button class="btn btn-primary" type="submit">Add</button>
                   </td>
